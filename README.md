@@ -49,3 +49,24 @@ Dari screenshot di atas kita dapat melihat bahwa ketika server dijalankan, maka 
 
 - Saya melakukan modifikasi komunikai antara server dan client dengan mengubah portnya dari 2000 ke 8080. Modifikasi dilakukan di `server.rs` dan `client.rs` karena menggunakan WebSocket protocol pada sisi client dan TcPListener di sisi server, yang mengharuskan penggunaan port yang sama agar dapat berkomunikasi dengan baik. Interaksi yang muncul di terminal sama seperti sebelumnya pada bagian 2.1 karena yang diubah hanya portnya. Jika port pada server dan client berbeda, maka akan mengakibatkan error karena server harus menyimpan connections dari client pada suatu port sementara client mengirimkan request ke port lain.
 
+### 2.3: Small changes, add IP and Port
+
+- Server
+![broadcast11](images/broadcast11.png)
+
+- Client 1
+![broadcast12](images/broadcast12.png)
+
+- Client 2
+![broadcast13](images/broadcast13.png)
+
+- Client 3
+![broadcast14](images/broadcast14.png)
+
+- Kode yang dimodifikasi pada `server.rs`
+![broadcast15](images/broadcast15.png)
+
+- Kode yang dimodifikasi pada `client.rs`
+![broadcast16](images/broadcast16.png)
+
+- Pada `server.rs`, saya melakukan perubahan di line 25 dengan mengganti `bcast_tx.send(text.into())?` menjadi `bcast_tx.send(format!("{addr}: {text}"))?`. Ini dilakukan dengan tujuan menampilkan IP dan Port dari client yang mengirim pesan sebagai identifier client tersebut. Sementara pada `client.rs`, saya melakukan perubahan di line 23 dengan mengganti `println!("From server: {}", text)` menjadi `println!("Wirya's Computer - From server: {}", text)`. Perubahan tersebut membuat pesan yang keluar pada client memiliki informasi tambahan berupa tulisan `"Wirya's Computer"`.
